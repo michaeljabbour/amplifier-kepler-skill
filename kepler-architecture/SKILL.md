@@ -30,7 +30,7 @@ Kepler is the Amplifier desktop distribution. Its architecture follows a **conce
 - **Ring 1 — Amplifier Core**: The kernel. Agent loop, provider protocol, tool dispatch, module contracts. Zero distribution knowledge.
 - **Ring 2 — Foundation**: Bundles, skills, behaviors, context modules. Distribution-agnostic building blocks.
 - **Ring 3 — Distribution (Kepler Config)**: `desktop.yaml` bundle composition, provider wiring, hook configuration. What makes Kepler *Kepler*.
-- **Ring 4 — Desktop App**: Tauri shell, Electron/webview, sidecar process management, IPC bridge, native capabilities.
+- **Ring 4 — Desktop App**: Tauri shell, webview, sidecar process management, IPC bridge, native capabilities.
 - **Ring 5 — User Layer**: User settings, custom bundles, personal preferences, workspace overrides.
 
 ## Ring Responsibilities
@@ -53,7 +53,7 @@ Ring 1 has **zero knowledge** of any distribution. It defines protocols — not 
 | `amplifier-foundation` | Standard tools (file ops, shell, web) |
 | `amplifier-foundation` | Agent delegation framework |
 
-Ring 2 builds reusable blocks. It does not know about Tauri, Electron, or desktop concerns.
+Ring 2 builds reusable blocks. It does not know about Tauri, webview, or desktop concerns.
 
 ### Ring 3 — Distribution
 

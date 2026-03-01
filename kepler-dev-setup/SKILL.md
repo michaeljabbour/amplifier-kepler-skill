@@ -34,7 +34,7 @@ git --version       # any recent
 ## 1. Clone and Setup Sidecar
 
 ```bash
-git clone https://github.com/amplifier-dev/amplifier-distro-kepler.git
+git clone https://github.com/michaeljabbour/amplifier-distro-kepler.git
 cd amplifier-distro-kepler/sidecar
 
 # Create virtual environment and install dependencies
