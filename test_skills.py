@@ -269,11 +269,25 @@ class TestBundleCompositionSpecifics:
 
     def test_four_step_new_bundle(self):
         content = _read_skill("kepler-bundle-composition")
-        assert "Adding a New Bundle" in content
+        bundle_start = content.find("Adding a New Bundle")
+        assert bundle_start != -1
+        bundle_section = content[bundle_start : bundle_start + 1500]
+        # Verify all 4 numbered steps are present
+        for step in ["1.", "2.", "3.", "4."]:
+            assert step in bundle_section, (
+                f"Adding a New Bundle should have step {step}"
+            )
 
     def test_provider_yaml_example(self):
         content = _read_skill("kepler-bundle-composition")
-        assert "Adding a New Provider" in content
+        provider_start = content.find("Adding a New Provider")
+        assert provider_start != -1
+        provider_section = content[provider_start : provider_start + 1000]
+        # Verify provider YAML example has key structure
+        for key in ["providers:", "models:", "default:"]:
+            assert key in provider_section, (
+                f"Adding a New Provider section should contain '{key}'"
+            )
 
     def test_five_composition_rules(self):
         content = _read_skill("kepler-bundle-composition")
