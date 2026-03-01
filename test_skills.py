@@ -184,7 +184,7 @@ class TestArchitectureSpecifics:
         # Should have at least 5 question marks in decision checklist area
         checklist_start = content.find("Decision Checklist")
         assert checklist_start != -1
-        checklist_section = content[checklist_start:]
+        checklist_section = content[checklist_start : checklist_start + 2000]
         questions = checklist_section.count("?")
         assert questions >= 5, (
             f"Decision checklist should have >=5 questions, found {questions}"
@@ -206,9 +206,11 @@ class TestDevSetupSpecifics:
 
     def test_has_key_files_table(self):
         content = _read_skill("kepler-dev-setup")
-        assert "Key Files" in content
-        # Table should have pipe characters
-        assert "|" in content, "Key files should be in a table format"
+        key_files_start = content.find("Key Files")
+        assert key_files_start != -1, "Missing 'Key Files' section"
+        key_files_section = content[key_files_start : key_files_start + 2000]
+        # Table should have pipe characters within the Key Files section
+        assert "|" in key_files_section, "Key files should be in a table format"
 
     def test_settings_yaml_mentioned(self):
         content = _read_skill("kepler-dev-setup")
@@ -295,7 +297,7 @@ class TestBundleCompositionSpecifics:
         assert rules_start != -1
         rules_section = content[rules_start:]
         # Should have at least 5 numbered or bulleted rules
-        numbered = len(re.findall(r"\d+\.", rules_section))
+        numbered = len(re.findall(r"^\d+\.", rules_section, re.MULTILINE))
         bulleted = rules_section.count("- ")
         assert numbered >= 5 or bulleted >= 5, (
             f"Composition Rules should have >=5 rules, found {numbered} numbered, {bulleted} bulleted"
