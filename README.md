@@ -21,8 +21,12 @@ Skills from this repository are available automatically in Kepler Desktop
 ### Global Installation (All Amplifier Instances)
 
 To make these skills available to **every** Amplifier instance (CLI, Desktop,
-any tool) regardless of which project you're working in, symlink each skill
-directory into `~/.amplifier/skills/`:
+any tool) regardless of which project you're working in, install each skill
+into `~/.amplifier/skills/`.
+
+> **Why not directory symlinks?** Python's `pathlib.glob("**")` does not follow
+> symlinked directories during recursive traversal. Use real directories with
+> file symlinks instead — glob follows file symlinks just fine.
 
 ```bash
 # Clone the repo (if you haven't already)
@@ -31,11 +35,11 @@ git clone https://github.com/michaeljabbour/amplifier-kepler-skill.git ~/dev/amp
 # Create the global skills directory
 mkdir -p ~/.amplifier/skills
 
-# Symlink each skill directory
-ln -sf ~/dev/amplifier-kepler-skill/kepler-architecture ~/.amplifier/skills/kepler-architecture
-ln -sf ~/dev/amplifier-kepler-skill/kepler-dev-setup ~/.amplifier/skills/kepler-dev-setup
-ln -sf ~/dev/amplifier-kepler-skill/kepler-sidecar-patterns ~/.amplifier/skills/kepler-sidecar-patterns
-ln -sf ~/dev/amplifier-kepler-skill/kepler-bundle-composition ~/.amplifier/skills/kepler-bundle-composition
+# Create real directories with file symlinks to each SKILL.md
+for skill in kepler-architecture kepler-dev-setup kepler-sidecar-patterns kepler-bundle-composition; do
+  mkdir -p ~/.amplifier/skills/$skill
+  ln -sf ~/dev/amplifier-kepler-skill/$skill/SKILL.md ~/.amplifier/skills/$skill/SKILL.md
+done
 ```
 
 After this, any Amplifier session can run `load_skill("kepler-architecture")`
@@ -100,19 +104,21 @@ To install all three globally:
 ```bash
 mkdir -p ~/.amplifier/skills
 
-# Core Amplifier skill
-ln -sf ~/dev/amplifier-skill ~/.amplifier/skills/amplifier-skill
+# Core Amplifier skill (real dir + file symlink)
+mkdir -p ~/.amplifier/skills/amplifier-skill
+ln -sf ~/dev/amplifier-skill/SKILL.md ~/.amplifier/skills/amplifier-skill/SKILL.md
 
 # Kepler skills
-ln -sf ~/dev/amplifier-kepler-skill/kepler-architecture ~/.amplifier/skills/kepler-architecture
-ln -sf ~/dev/amplifier-kepler-skill/kepler-dev-setup ~/.amplifier/skills/kepler-dev-setup
-ln -sf ~/dev/amplifier-kepler-skill/kepler-sidecar-patterns ~/.amplifier/skills/kepler-sidecar-patterns
-ln -sf ~/dev/amplifier-kepler-skill/kepler-bundle-composition ~/.amplifier/skills/kepler-bundle-composition
+for skill in kepler-architecture kepler-dev-setup kepler-sidecar-patterns kepler-bundle-composition; do
+  mkdir -p ~/.amplifier/skills/$skill
+  ln -sf ~/dev/amplifier-kepler-skill/$skill/SKILL.md ~/.amplifier/skills/$skill/SKILL.md
+done
 
 # Tauri skills
-ln -sf ~/dev/amplifier-tauri-skill/tauri2-project-structure ~/.amplifier/skills/tauri2-project-structure
-ln -sf ~/dev/amplifier-tauri-skill/tauri2-ipc-patterns ~/.amplifier/skills/tauri2-ipc-patterns
-ln -sf ~/dev/amplifier-tauri-skill/tauri2-sidecar-integration ~/.amplifier/skills/tauri2-sidecar-integration
+for skill in tauri2-project-structure tauri2-ipc-patterns tauri2-sidecar-integration; do
+  mkdir -p ~/.amplifier/skills/$skill
+  ln -sf ~/dev/amplifier-tauri-skill/$skill/SKILL.md ~/.amplifier/skills/$skill/SKILL.md
+done
 ```
 
 ## Repository Layout
