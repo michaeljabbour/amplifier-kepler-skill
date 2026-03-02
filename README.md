@@ -13,11 +13,22 @@ Skills for developing and extending [Kepler](https://github.com/michaeljabbour/a
 
 ## Install from GitHub
 
-### Amplifier (CLI or Desktop)
+### Quick Install (Amplifier + Claude Code)
 
-**Option A -- Git skill source (recommended, survives updates):**
+```bash
+git clone https://github.com/michaeljabbour/amplifier-kepler-skill.git ~/dev/amplifier-kepler-skill
+cd ~/dev/amplifier-kepler-skill
+./install.sh
+```
 
-Add to your bundle YAML or `desktop.yaml`:
+This creates symlinks in both `~/.amplifier/skills/` and `~/.claude/skills/`,
+so every Amplifier session and every Claude Code session sees the same skills.
+Update anytime with `git pull` — symlinks mean both tools pick up changes
+instantly.
+
+### Amplifier Bundle YAML (alternative)
+
+If you prefer git-sourced skills fetched on the fly:
 
 ```yaml
 tools:
@@ -27,46 +38,9 @@ tools:
         - "git+https://github.com/michaeljabbour/amplifier-kepler-skill@main"
 ```
 
-Skills are fetched from GitHub automatically. This config lives in your bundle
-file, not in the Amplifier cache, so it survives `amplifier update`.
-
-**Option B -- Clone and symlink for global access:**
-
-```bash
-# 1. Clone
-git clone https://github.com/michaeljabbour/amplifier-kepler-skill.git ~/dev/amplifier-kepler-skill
-
-# 2. Install into ~/.amplifier/skills/ (survives all updates)
-mkdir -p ~/.amplifier/skills
-for skill in kepler-architecture kepler-dev-setup kepler-sidecar-patterns kepler-bundle-composition; do
-  mkdir -p ~/.amplifier/skills/$skill
-  ln -sf ~/dev/amplifier-kepler-skill/$skill/SKILL.md ~/.amplifier/skills/$skill/SKILL.md
-done
-```
-
-Now any Amplifier session can `load_skill("kepler-architecture")` from any
-project. Update skills anytime with `cd ~/dev/amplifier-kepler-skill && git pull`.
-
-> **Why file symlinks?** `pathlib.glob("**")` doesn't follow symlinked
-> directories, but follows file symlinks fine.
-
 ### Kepler Desktop
 
-Already configured -- skills are wired into Kepler's `desktop.yaml` via the
-`behaviors/skills.yaml` behavior bundle. Nothing to install.
-
-### Claude Code
-
-```bash
-claude skill add https://github.com/michaeljabbour/amplifier-kepler-skill
-```
-
-Or reference individual skills directly:
-
-```
-Read ~/dev/amplifier-kepler-skill/kepler-architecture/SKILL.md for the
-Kepler concentric rings model, then review my proposed change.
-```
+Already configured via `behaviors/skills.yaml`. Nothing to install.
 
 ### Other Tools (Cursor, Warp, etc.)
 
